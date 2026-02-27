@@ -28,7 +28,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           <tr>
             <td>HALLLOOO</td>
             <td>imtweaking</td>
-            <td>HALLLOOO</td>
+            <td>PLEASE SPEED I NEED THIS</td>
           </tr>
         </table>
       </body>
