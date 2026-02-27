@@ -25,6 +25,11 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <body>
         <p>(Display cubic written out here)</p>
         <table>
+          <tr>
+            <td>HALLLOOO</td>
+            <td>HALLLOOO</td>
+            <td>HALLLOOO</td>
+          </tr>
         </table>
       </body>
     </div>
