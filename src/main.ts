@@ -26,9 +26,34 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <p>(Display cubic written out here)</p>
         <table>
           <tr>
-            <td>HALLLOOO</td>
-            <td>imtweaking</td>
-            <td>PLEASE SPEED I NEED THIS</td>
+            <td>p</td>
+            <td>p val</td>
+          </tr>
+          <tr>
+            <td>q</td>
+            <td>q val</td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <td>Value</td>
+            <td>x</td>
+            <td>y</td>
+          </tr>
+          <tr>
+            <td>Root 1</td>
+            <td>x val</td>
+            <td>0</td>
+          </tr>          
+          <tr>
+            <td>Root 2</td>
+            <td>x val</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Root 3</td>
+            <td>x val</td>
+            <td>0</td>
           </tr>
         </table>
       </body>
