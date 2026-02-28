@@ -53,7 +53,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           <tr>
             <td>Root 3</td>
             <td>x val</td>
-            <td>0</td>
+            <td>zero</td>
           </tr>
         </table>
       </body>
