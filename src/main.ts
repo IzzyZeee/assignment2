@@ -8,14 +8,15 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <div class="main_ui">
       <h1 class="h1"> Cubic Solver </h1>
       <body>
-          <input> a-value: </input>
-          <input> b-value: </input>
-          <input> c-value: </input>
-          <input> d-value: </input>
+        <form>
+          <input type="text"> a-value: </input>
+          <input type="text"> b-value: </input>
+          <input type="text"> c-value: </input>
+          <input type="text"> d-value: </input>
           <br>
-          <button type="submit"> Solve that cubic! </button>
-          <button type="reset"> Clear </button>
-          <output> 3 </output>
+          <input type="submit" value="Solve that cubic!"></input>
+          <input type="reset" value="Clear"></input>
+        <form>
       </body>
     </div>
     <div class="main_ui">
