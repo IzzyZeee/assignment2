@@ -1,14 +1,12 @@
-// import './style.css'
+import './style.css'
 import typescriptLogo from './typescript.svg'
 import viteLogo from '/vite.svg'
 import { setupCounter } from './counter.ts'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <html>
-    <div>
-      <head>
-        <h1> Cubic Solver </h1>
-      </head>
+    <div class="main_ui">
+      <h1 class="h1"> Cubic Solver </h1>
       <body>
           <input> a-value: </input>
           <input> b-value: </input>
@@ -20,8 +18,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           <output> 3 </output>
       </body>
     </div>
-    
-    <div>
+    <div class="main_ui">
       <body>
         <p>(Display cubic written out here)</p>
         <table>
