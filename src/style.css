@@ -11,21 +11,121 @@
   background-color: #3e625f;
 }
 
-.h1 {
+.h1 { /* Title font */
   font-family: 'dm serif display', helvetica, arial, sans-serif;
   line-height: 1.67;
   font-weight: 400;
-  font-size: 50px;
-  padding-top: 40px;
+  font-size: 67px;
+  padding-top: 10px;
   color: rgba(9, 69, 74, 0.87);
 }
 
-.main_ui {
+.input_ui {
+  width: fit-content;
+  height: fit-content;
   text-align: center;
-  width: 670px;
+  border-radius: 20px;
+  background-color: #d2d5d5;
+  margin: 0 auto;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  padding: 50px;
+}
+
+.output_ui {
+    width: fit-content;
+  height: fit-content;
+  text-align: center;
+  width: 80%;
   height: 1000px;
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: #d2d5d5;
   margin: 0 auto;
 }
 
+.form_input {
+  all: unset;
+  background-color: #ffffff;
+  width: 150px;
+  height: 40px;
+  border-radius: 20px;
+  margin: 10px;
+  color: rgba(9, 69, 74, 0.87);
+  border: 1px solid rgba(9, 69, 74, 0.87);
+}
+
+.form_input:hover {
+  border: 1px dashed rgba(9, 69, 74, 0.87);
+}
+
+.form_input:focus {
+ background-color: #caebe5;
+}
+
+.table_row {
+  background-color: #ffffff;
+  width: 100px;
+  height: 40px;
+}
+
+.top_col_1 {
+  width: 200px;
+}
+
+.top_col_2 {
+  width: 200px;
+}
+
+.bottom_col_1 {
+  width: 200px;
+}
+
+.bottom_col_2 {
+  width: 100px;
+}
+
+.bottom_col_3 {
+  width: 100px;
+}
+
+.colored_row {
+  background-color: #3e625f;
+  color: #ffffff;
+}
+
+.form {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.button {
+  background-color: #3e625f;
+  color: #ffffff;
+  height: 80px;
+  font-family: 'ibm plex mono', helvetica, arial, sans-serif;
+  line-height: 1.67;
+  font-weight: 400;
+  color-scheme: light;
+  border-radius: 20px;
+  color: rgba(255, 255, 255, 0.87);
+
+  padding-right: 30px;
+  padding-left: 30px;
+  border: 0px;
+}
+
+.button:hover {
+  background-color: rgba(9, 69, 74, 0.87);
+}
+
+.button:active {
+  color: #3e625f;
+  background-color: #ffffff;
+}
+
+.font {
+  font-size: 20px;
+}
