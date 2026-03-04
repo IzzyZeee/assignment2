@@ -32,8 +32,6 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           <form>
         </div>
     </div>
-      <label for="result">Result:</label>
-      <input type="text" id="result" name="result" />
     <div>
       <canvas0 id="graph" width="600" height="400"></canvas>
     </div>
@@ -42,15 +40,21 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <table class="font">
           <tr class="table_row">
             <td class="top_col_1">p</td>
-            <td class="top_col_2">pval</td>
+            <td class="top_col_2">
+              <label id="p-result">
+            </td>
           </tr>
           <tr class="table_row">
             <td>q</td>
-            <td>qval</td>
+            <td>
+              <label id="q-result">
+            </td>
           </tr>
           <tr class="table_row">
-            <td>discriminant</td>
-            <td>dval</td>
+            <td>Discriminant</td>
+            <td>
+              <label id="discriminant-result">
+            </td>
           </tr>
         </table>
         <table class="font">
@@ -61,18 +65,24 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           </tr>
           <tr class="table_row">
             <td>Root 1</td>
-            <td>x val</td>
+            <td>
+              <label id="x1-result">
+            </td>
             <td>0</td>
           </tr>          
           <tr class="table_row">
             <td>Root 2</td>
-            <td>x val</td>
+            <td>
+              <label id="x2-result">
+            </td>
             <td>0</td>
           </tr>
           <tr class="table_row">
             <td>Root 3</td>
-            <td>x val</td>
-            <td>zero</td>
+            <td>
+              <label id="x3-result">
+            </td>
+            <td>0</td>
           </tr>
         </table>
       </body>
@@ -92,7 +102,7 @@ form?.addEventListener("submit", (event) => {
 
   const p = (3 * a * c - b * b) / (3 * a * a);
   const q = (27 * a * a * d - 9 * a * b * c + 2 * b * b * b) / (27 * a * a * a);
-  const delta = Math.pow((q / 2), 2) + Math.pow((p / 3), 3);
+  let delta = Math.pow((q / 2), 2) + Math.pow((p / 3), 3);
 
   let x1 = null;
   let x2 = null;
@@ -103,7 +113,9 @@ form?.addEventListener("submit", (event) => {
   }
 
   if (Math.abs(delta) < 1e-15) { /* Case C: Delta equals 0, but sometimes the computer can't actually get the zero so it becomes very close to zero, which we detect under the threshold (between 0 and 1e-15) */
-
+  
+    delta = 0;
+    
     if (p == 0 && q == 0) { /* Case C1: Triple root when p = q = 0 */
       x1 = cardano(a, b, p, q);      
       x2 = x1;
@@ -129,7 +141,11 @@ form?.addEventListener("submit", (event) => {
 
   } 
 
-// (document.getElementById("result") as HTMLInputElement).value = `x1 = ${x1}, x2 = ${x2}, x3 = ${x3}, delta = ${delta}`;
-(document.getElementById("result") as HTMLInputElement).value = `x1 = ${x1}, x2 = ${x2}, x3 = ${x3}, delta = ${delta}`;
+(document.getElementById("p-result") as HTMLInputElement).textContent = `${p}`;
+(document.getElementById("q-result") as HTMLInputElement).textContent = `${q}`;
+(document.getElementById("discriminant-result") as HTMLInputElement).textContent = `${delta}`;
+(document.getElementById("x1-result") as HTMLInputElement).textContent = `${x1}`;
+(document.getElementById("x2-result") as HTMLInputElement).textContent = `${x2}`;
+(document.getElementById("x3-result") as HTMLInputElement).textContent = `${x3}`;
 
 })

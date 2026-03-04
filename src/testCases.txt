@@ -1,0 +1,13 @@
+Huzzah, these are just test cases to ensure the site works! Presented in order a, b, c, d
+
+Three real roots:
+1, 6, 11, 6
+
+One real root, two complex roots:
+1, 6, 11, 67
+
+One real root, one double root:
+-1, 6, -9, 0
+
+One triple root:
+1, 3, 3, 1
