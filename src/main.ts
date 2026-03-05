@@ -27,13 +27,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
             </div>
             <div>
               <input type="submit" class="button font" value="Solve that cubic!">
-              <input type="reset" class="button font" value="Clear">
             </div>     
           <form>
         </div>
-    </div>
-    <div>
-      <canvas0 id="graph" width="600" height="400"></canvas>
     </div>
     <div class="output-ui">
     <p id="equation"></p>
@@ -86,6 +82,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
             <td>0</td>
           </tr>
         </table>
+
+        <canvas id="graph" width="600" height="600"></canvas>
+
       </body>
     </div>
   </html>
@@ -115,7 +114,7 @@ form?.addEventListener("submit", (event) => {
   
   function truncate(num: number, places: number) { /* To truncate to 5 decimal places because the example does so */
 
-    const multiplied = num * Math.pow(10, places); /* ex. 1.1234, 2 becomes 112.34*/
+    const multiplied = num * Math.pow(10, places); /* ex. 1.1234, 2 becomes 112.34 */
     const result = Math.trunc(multiplied) / Math.pow(10, places); /* Cut off decimal, divide by power of 10 ex. 112.34 becomes 112 becomes 1.12 */
     return result;
 
@@ -190,5 +189,130 @@ function term(coefficient: number, power: number) { /* Returns terms so you can 
 const eqn = ((a > 0) ? (term(a, 3)).substring(2) : "-" + (term(a, 3)).substring(2)) + term(b, 2) + term(c, 1) + term (d, 0) + "= 0";
 
 (document.getElementById("equation") as HTMLInputElement).innerHTML = eqn;
+
+const canvas = document.getElementById("graph");
+const ctx = canvas.getContext("2d");
+const xMin = -12; /* Determine how many units it extends for relative to axis origin, ideally square */
+const xMax = 12;
+const yMin = -12;
+const yMax = 12;
+
+function coordToPixelX(x: number) { /* Converts x/y-vals from the function into coords used by Canvas */
+/* Because Canvas's grid starts with index (0, 0) at top left corner, we must find the corresponding Canvas coords */
+  const width = canvas.width; /* From width and height defined in HTML part */
+
+  const pixelPerGridX = width / (xMax - xMin); /* Determine how many Canvas pixels per  */
+/* Origin on normal graph corresponds to 24/2 */
+  const px = (x - xMin) * pixelPerGridX; /* First get Canvas x-coord (the one with origin at top left corner...) that corresponds to og x val, then multiply it by the no. pixels per grid to get the correct no. pixels */
+
+  return px; /* Returns as an object */
+
+}
+
+function coordToPixelY(y: number) {
+
+  const height = canvas.height;
+
+  const pixelPerGridY = height / (yMax - yMin);
+
+  const py = (yMax - y) * pixelPerGridY; 
+
+  return py; 
+
+}
+
+function calculateCubic(x: number) { // Simply to get x-y input-output 
+  return a * Math.pow(x, 3) + b * Math.pow(x, 2) + c * x + d;
+}
+
+function drawAxis() {
+  
+  ctx.beginPath();
+  ctx.strokeStyle = 'rgba(9, 69, 74, 0.87)';
+
+  const pxMin = coordToPixelX(xMin); /* The leftmost edge of the grid */
+  const pxMax = coordToPixelX(xMax); /* and rightmost */
+  ctx.moveTo(pxMin, coordToPixelY(0)); /* Start line at leftmost */
+  ctx.lineTo(pxMax, coordToPixelY(0)); /* End line at rightmost */
+  ctx.stroke(); /* This draws the line */
+
+  const pyMin = coordToPixelY(yMin); // The bottommost edge of the grid 
+  const pyMax = coordToPixelY(yMax); // and topmost 
+  ctx.moveTo(coordToPixelX(0), pyMin); // Start line at bottommost 
+  ctx.lineTo(coordToPixelX(0), pyMax); // End line at topmost 
+  ctx.stroke(); // Draws the line 
+
+}
+
+function drawGrid() {
+
+   for (let i = xMin; i <= xMax - xMin; i++) { // Draw all VERTICAL lines, including edges
+      ctx.beginPath();
+      ctx.strokeStyle = '#67a095';
+      ctx.moveTo(coordToPixelX(i), coordToPixelY(yMax));
+      ctx.lineTo(coordToPixelX(i), coordToPixelY(yMin));
+      ctx.stroke();
+    }
+
+    for (let i = yMin; i <= yMax - yMin; i++) { // Draw all HORIZONTAL lines, including edges
+      ctx.beginPath();
+      ctx.strokeStyle = '#67a095';
+      ctx.moveTo(coordToPixelX(xMin), coordToPixelY(i));
+      ctx.lineTo(coordToPixelX(xMax), coordToPixelY(i));
+      ctx.stroke();
+    }
+
+}
+
+function drawCurve() { // For actually drawing the curve 
+
+  let isFirstPoint = true;
+  ctx.beginPath();
+  ctx.strokeStyle = '#910B21';
+  ctx.lineWidth = 3;
+
+  for (let i = xMin; i <= xMax; i += 0.001) {
+    const x = i;
+    const y = calculateCubic(x);
+    
+    if (y < yMin || y > yMax) { // Make sure y is in range (x always in range)
+      continue;
+    }
+
+    if (isFirstPoint) { // Only reaches this for first point, then locks it to false
+      ctx.moveTo(coordToPixelX(x), coordToPixelY(y));
+      isFirstPoint = false;
+      continue;
+    }
+
+    ctx.lineTo(coordToPixelX(x), coordToPixelY(y));
+    
+  }
+
+  ctx.stroke(); // Draws once all lineTo are marked
+
+}
+
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+drawGrid();
+drawAxis();
+drawCurve();
+
+
+// ctx.moveTo(50, 100); // starting point
+// ctx.lineTo(300, 200); // ending point
+// ctx.stroke(); // actually draw it
+
+// ctx.beginPath();
+// ctx.moveTo(50, 100);
+// ctx.lineTo(150, 120);
+// ctx.lineTo(250, 80);
+// ctx.lineTo(350, 140);
+// ctx.stroke();
+
+
+
+
+
 
 })
