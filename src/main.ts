@@ -36,6 +36,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <canvas0 id="graph" width="600" height="400"></canvas>
     </div>
     <div class="output-ui">
+    <p id="equation"></p>
       <body>
         <table class="font">
           <tr class="table-row">
@@ -100,6 +101,10 @@ form?.addEventListener("submit", (event) => {
   const c = Number(formData.get("c-val"));
   const d = Number(formData.get("d-val"));
 
+  if (a == 0) {
+    return;
+  }
+
   const p = (3 * a * c - b * b) / (3 * a * a);
   const q = (27 * a * a * d - 9 * a * b * c + 2 * b * b * b) / (27 * a * a * a);
   let delta = Math.pow((q / 2), 2) + Math.pow((p / 3), 3);
@@ -155,5 +160,35 @@ form?.addEventListener("submit", (event) => {
 (document.getElementById("x1-result") as HTMLInputElement).textContent = `${x1}`;
 (document.getElementById("x2-result") as HTMLInputElement).textContent = `${x2}`;
 (document.getElementById("x3-result") as HTMLInputElement).textContent = `${x3}`;
+
+function term(coefficient: number, power: number) { /* Returns terms so you can put them in an equation */
+
+  let result = ""; 
+
+  if (coefficient > 0) { /* Positive term */
+    
+    if (power == 0) { /* For x^0, or last term */
+      result += "+ " + coefficient + " ";
+    } else {
+      result += "+ " + coefficient + "x<sup>" + ((power > 1) ? power + " " : " ") + "</sup>"; /* Doesn't put power if it's x^1 */
+    }
+
+  } else if (coefficient < 0) { /* Negative term */
+
+    if (power == 0) {
+      result += "- " + Math.abs(coefficient) + " ";
+    } else {
+      result += "- " + Math.abs(coefficient) + "x<sup>" + ((power > 1) ? power + " " : " ") + "</sup>";
+    }
+
+  } 
+  
+  return result; /* Returns nothing if the coefficient was 0 */
+
+}
+
+const eqn = ((a > 0) ? (term(a, 3)).substring(2) : "-" + (term(a, 3)).substring(2)) + term(b, 2) + term(c, 1) + term (d, 0) + "= 0";
+
+(document.getElementById("equation") as HTMLInputElement).innerHTML = eqn;
 
 })
