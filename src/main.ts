@@ -112,40 +112,40 @@ form?.addEventListener("submit", (event) => {
   let x2 = null;
   let x3 = null;
   
-  function truncate(num: number, places: number) { /* To truncate to 5 decimal places because the example does so */
+  function truncate(num: number, places: number) { // To truncate to 5 decimal places because the example does so
 
-    const multiplied = num * Math.pow(10, places); /* ex. 1.1234, 2 becomes 112.34 */
-    const result = Math.trunc(multiplied) / Math.pow(10, places); /* Cut off decimal, divide by power of 10 ex. 112.34 becomes 112 becomes 1.12 */
+    const multiplied = num * Math.pow(10, places); // ex. 1.1234, 2 becomes 112.34
+    const result = Math.trunc(multiplied) / Math.pow(10, places); // Cut off decimal, divide by power of 10 ex. 112.34 becomes 112 becomes 1.12
     return result;
 
   }
 
-  function cardano(a: number, b: number, p: number, q: number) { /* Calculates a single root */
-    return truncate(Math.cbrt(-q / 2 + Math.sqrt(Math.pow((q / 2), 2) + Math.pow((p / 3), 3))) + Math.cbrt(-q / 2 - Math.sqrt(Math.pow((q / 2), 2) + Math.pow((p / 3), 3))) - b / (3 * a), 2); /* Truncated to 2 decimal places like on the example */
+  function cardano(a: number, b: number, p: number, q: number) { // Calculates a single root
+    return truncate(Math.cbrt(-q / 2 + Math.sqrt(Math.pow((q / 2), 2) + Math.pow((p / 3), 3))) + Math.cbrt(-q / 2 - Math.sqrt(Math.pow((q / 2), 2) + Math.pow((p / 3), 3))) - b / (3 * a), 2); // Truncated to 2 decimal places like on the example
   }
 
-  if (Math.abs(delta) < 1e-15) { /* Case C: Delta equals 0, but sometimes the computer can't actually get the zero so it becomes very close to zero, which we detect under the threshold (between 0 and 1e-15) */
+  if (Math.abs(delta) < 1e-15) { // Case C: Delta equals 0, but sometimes the computer can't actually get the zero so it becomes very close to zero, which we detect under the threshold (between 0 and 1e-15)
   
     delta = 0;
     
-    if (p == 0 && q == 0) { /* Case C1: Triple root when p = q = 0 */
+    if (p == 0 && q == 0) { // Case C1: Triple root when p = q = 0
       x1 = cardano(a, b, p, q);      
       x2 = x1;
       x3 = x1;
-    } else { /* Case C2: Double root */
-      x1 = cardano(a, b, p, q), 2; /* Double */
-      x2 = truncate(Math.cbrt(q / 2) - b / (3 * a), 2); /* Single */
+    } else { // Case C2: Double root
+      x1 = cardano(a, b, p, q), 2; // Double
+      x2 = truncate(Math.cbrt(q / 2) - b / (3 * a), 2); // Single
       x3 = x2;
     }
 
-  } else if (delta < 0) { /* Case A: 3 real roots */
+  } else if (delta < 0) { // Case A: 3 real roots
 
     const theta = (1 / 3) * Math.acos(-q / (2 * Math.sqrt(-Math.pow((p / 3), 3))));
     x1 = truncate(2 * Math.sqrt(-p / 3) * Math.cos(theta) - b / (3 * a), 2);
     x2 = truncate(2 * Math.sqrt(-p / 3) * Math.cos(theta + 2 * Math.PI / 3) - b / (3 * a), 2);
     x3 = truncate(2 * Math.sqrt(-p / 3) * Math.cos(theta + 4 * Math.PI / 3) - b / (3 * a), 2);
-  
-  } else { /* Case B: Delta > 0, 1 real root and 2 complex roots */
+
+  } else { // Case B: Delta > 0, 1 real root and 2 complex roots
 
     x1 = cardano(a, b, p, q), 2;
     x2 = "Complex Number";
@@ -160,19 +160,19 @@ form?.addEventListener("submit", (event) => {
 (document.getElementById("x2-result") as HTMLInputElement).textContent = `${x2}`;
 (document.getElementById("x3-result") as HTMLInputElement).textContent = `${x3}`;
 
-function term(coefficient: number, power: number) { /* Returns terms so you can put them in an equation */
+function term(coefficient: number, power: number) { // Returns terms so you can put them in an equation
 
   let result = ""; 
 
-  if (coefficient > 0) { /* Positive term */
+  if (coefficient > 0) { // Positive term
     
-    if (power == 0) { /* For x^0, or last term */
+    if (power == 0) { // For x^0, or last term
       result += "+ " + coefficient + " ";
     } else {
-      result += "+ " + coefficient + "x<sup>" + ((power > 1) ? power + " " : " ") + "</sup>"; /* Doesn't put power if it's x^1 */
+      result += "+ " + coefficient + "x<sup>" + ((power > 1) ? power + " " : " ") + "</sup>"; // Doesn't put power if it's x^1
     }
 
-  } else if (coefficient < 0) { /* Negative term */
+  } else if (coefficient < 0) { // Negative term
 
     if (power == 0) {
       result += "- " + Math.abs(coefficient) + " ";
@@ -182,7 +182,7 @@ function term(coefficient: number, power: number) { /* Returns terms so you can 
 
   } 
   
-  return result; /* Returns nothing if the coefficient was 0 */
+  return result; // Returns nothing if the coefficient was 0
 
 }
 
@@ -192,20 +192,20 @@ const eqn = ((a > 0) ? (term(a, 3)).substring(2) : "-" + (term(a, 3)).substring(
 
 const canvas = document.getElementById("graph");
 const ctx = canvas.getContext("2d");
-const xMin = -12; /* Determine how many units it extends for relative to axis origin, ideally square */
+const xMin = -12; // Determine how many units it extends for relative to axis origin, ideally square
 const xMax = 12;
 const yMin = -12;
 const yMax = 12;
 
-function coordToPixelX(x: number) { /* Converts x/y-vals from the function into coords used by Canvas */
-/* Because Canvas's grid starts with index (0, 0) at top left corner, we must find the corresponding Canvas coords */
-  const width = canvas.width; /* From width and height defined in HTML part */
+function coordToPixelX(x: number) { // Converts x/y-vals from the function into coords used by Canvas
+// Because Canvas's grid starts with index (0, 0) at top left corner, we must find the corresponding Canvas coords
+  const width = canvas.width; // From width and height defined in HTML part
 
-  const pixelPerGridX = width / (xMax - xMin); /* Determine how many Canvas pixels per  */
-/* Origin on normal graph corresponds to 24/2 */
-  const px = (x - xMin) * pixelPerGridX; /* First get Canvas x-coord (the one with origin at top left corner...) that corresponds to og x val, then multiply it by the no. pixels per grid to get the correct no. pixels */
+  const pixelPerGridX = width / (xMax - xMin); // Determine how many Canvas pixels per
+// Origin on normal graph corresponds to 24/2 
+  const px = (x - xMin) * pixelPerGridX; // First get Canvas x-coord (the one with origin at top left corner...) that corresponds to og x val, then multiply it by the no. pixels per grid to get the correct no. pixels
 
-  return px; /* Returns as an object */
+  return px; // Returns as an object
 
 }
 
@@ -221,30 +221,11 @@ function coordToPixelY(y: number) {
 
 }
 
-function calculateCubic(x: number) { // Simply to get x-y input-output 
+function calculateCubic(x: number) { // Simply to get x-y input-output
   return a * Math.pow(x, 3) + b * Math.pow(x, 2) + c * x + d;
 }
 
-function drawAxis() {
-  
-  ctx.beginPath();
-  ctx.strokeStyle = 'rgba(9, 69, 74, 0.87)';
-
-  const pxMin = coordToPixelX(xMin); /* The leftmost edge of the grid */
-  const pxMax = coordToPixelX(xMax); /* and rightmost */
-  ctx.moveTo(pxMin, coordToPixelY(0)); /* Start line at leftmost */
-  ctx.lineTo(pxMax, coordToPixelY(0)); /* End line at rightmost */
-  ctx.stroke(); /* This draws the line */
-
-  const pyMin = coordToPixelY(yMin); // The bottommost edge of the grid 
-  const pyMax = coordToPixelY(yMax); // and topmost 
-  ctx.moveTo(coordToPixelX(0), pyMin); // Start line at bottommost 
-  ctx.lineTo(coordToPixelX(0), pyMax); // End line at topmost 
-  ctx.stroke(); // Draws the line 
-
-}
-
-function drawGrid() {
+function drawGrid() { // Draws the grid
 
    for (let i = xMin; i <= xMax - xMin; i++) { // Draw all VERTICAL lines, including edges
       ctx.beginPath();
@@ -264,7 +245,26 @@ function drawGrid() {
 
 }
 
-function drawCurve() { // For actually drawing the curve 
+function drawAxis() {
+  
+  ctx.beginPath();
+  ctx.strokeStyle = 'rgba(9, 69, 74, 0.87)';
+
+  const pxMin = coordToPixelX(xMin); // The leftmost edge of the grid
+  const pxMax = coordToPixelX(xMax); // and rightmost
+  ctx.moveTo(pxMin, coordToPixelY(0)); // Start line at leftmost
+  ctx.lineTo(pxMax, coordToPixelY(0)); // End line at rightmost
+  ctx.stroke(); // This draws the line
+
+  const pyMin = coordToPixelY(yMin); // The bottommost edge of the grid
+  const pyMax = coordToPixelY(yMax); // and topmost
+  ctx.moveTo(coordToPixelX(0), pyMin); // Start line at bottommost
+  ctx.lineTo(coordToPixelX(0), pyMax); // End line at topmost
+  ctx.stroke(); // Draws the line
+
+}
+
+function drawCurve() { // For actually drawing the curve
 
   let isFirstPoint = true;
   ctx.beginPath();
@@ -290,6 +290,14 @@ function drawCurve() { // For actually drawing the curve
   }
 
   ctx.stroke(); // Draws once all lineTo are marked
+
+}
+
+function drawRoots() {
+
+  ctx.beginPath();
+  ctx.strokeStyle = '#081681';
+  ctx.arc(coordToPixelX(Number(x1)), coordToPixelY(calculateCubic(x1)))
 
 }
 
