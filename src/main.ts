@@ -1,7 +1,6 @@
-import './style.css'
-import './calculation.ts'
+import "./style.css";
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
+document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <html>
     <div class="input-ui">
       <h1 class="h1"> Cubic Solver </h1>
@@ -37,14 +36,14 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <div class="full-table">
           <table class="font">
             <tr class="table-row">
-              <td class="half-col">p</td>
-              <td class="half-col">
+              <td class="half-col border-bottom">p</td>
+              <td class="half-col border-bottom">
                 <label id="p-result"></label>
               </td>
             </tr>
             <tr class="table-row">
-              <td>q</td>
-              <td>
+              <td class="border-bottom">q</td>
+              <td class="border-bottom">
                 <label id="q-result"></label>
               </td>
             </tr>
@@ -62,25 +61,32 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
               <td class="quarter-col">y</td>
             </tr>
             <tr class="table-row">
-              <td>Root 1</td>
-              <td>
+              <td class="border-bottom">Root 1</td>
+              <td class="border-bottom">
                 <label id="x1-result"></label>
               </td>
-              <td>0</td>
+              <td class="border-bottom">0</td>
             </tr>          
             <tr class="table-row">
-              <td>Root 2</td>
-              <td>
+              <td class="border-bottom">Root 2</td>
+              <td class="border-bottom">
                 <label id="x2-result"></label>
               </td>
-              <td>0</td>
+              <td class="border-bottom">0</td>
             </tr>
             <tr class="table-row">
-              <td>Root 3</td>
-              <td>
+              <td class="border-bottom">Root 3</td>
+              <td class="border-bottom">
                 <label id="x3-result"></label>
               </td>
+              <td class="border-bottom">0</td>
+            </tr>
+            <tr class="table-row">
+              <td>y-intercept</td>
               <td>0</td>
+              <td>
+                <label id="y-intercept"></label>
+              </td>
             </tr>
           </table>
         </div>
@@ -91,30 +97,32 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </div>
   </html>
 `
-const form = document.getElementById("cubic") as HTMLFormElement; /* First identify form by id ("cubic") */
+
+const form = document.getElementById("cubic") as HTMLFormElement; // First identify form by id ("cubic")
 
 form?.addEventListener("submit", (event) => {
+
   event.preventDefault();
-  const formData = new FormData(form); /* Create object from FormData class that allows you to use it */
+  const formData = new FormData(form); // Create object from FormData class that allows you to use it
 
   const a = Number(formData.get("a-val"));
   const b = Number(formData.get("b-val"));
   const c = Number(formData.get("c-val"));
   const d = Number(formData.get("d-val"));
 
-  if (a == 0) {
+  if (a == 0) { // a-value cannot be zero or it's no longer a cubic.
     return;
   }
 
   const p = (3 * a * c - b * b) / (3 * a * a);
   const q = (27 * a * a * d - 9 * a * b * c + 2 * b * b * b) / (27 * a * a * a);
-  let delta = Math.pow((q / 2), 2) + Math.pow((p / 3), 3);
+  let delta = Math.pow(q / 2, 2) + Math.pow(p / 3, 3);
 
   let x1 = 0;
   let x2 = 0;
   let x3 = 0;
-  
-  function truncate(num: number, places: number) { // To truncate to 5 decimal places because the example does so
+
+  function truncate(num: number, places: number) { // To truncate to 5 or 2 decimal places because the example does so
 
     const multiplied = num * Math.pow(10, places); // ex. 1.1234, 2 becomes 112.34
     const result = Math.trunc(multiplied) / Math.pow(10, places); // Cut off decimal, divide by power of 10 ex. 112.34 becomes 112 becomes 1.12
@@ -123,13 +131,15 @@ form?.addEventListener("submit", (event) => {
   }
 
   function cardano(a: number, b: number, p: number, q: number) { // Calculates a single root
-    return truncate(Math.cbrt(-q / 2 + Math.sqrt(Math.pow((q / 2), 2) + Math.pow((p / 3), 3))) + Math.cbrt(-q / 2 - Math.sqrt(Math.pow((q / 2), 2) + Math.pow((p / 3), 3))) - b / (3 * a), 2); // Truncated to 2 decimal places like on the example
+
+    return truncate(Math.cbrt(-q / 2 + Math.sqrt(Math.pow(q / 2, 2) + Math.pow(p / 3, 3))) + Math.cbrt(-q / 2 - Math.sqrt(Math.pow(q / 2, 2) + Math.pow(p / 3, 3))) - b / (3 * a), 2); // Truncated to 2 decimal places like on the example
+ 
   }
 
   if (Math.abs(delta) < 1e-15) { // Case C: Delta equals 0, but sometimes the computer can't actually get the zero so it becomes very close to zero, which we detect under the threshold (between 0 and 1e-15)
-  
+
     delta = 0; // Turns delta to zero
-    
+
     if (Math.abs(p) < 1e-15 && Math.abs(q) < 1e-15) { // Case C1: Triple root when p = q = 0
       x1 = cardano(a, b, p, q);
       x2 = x1;
@@ -142,10 +152,10 @@ form?.addEventListener("submit", (event) => {
 
   } else if (delta < 0) { // Case A: 3 real roots
 
-    const theta = (1 / 3) * Math.acos(-q / (2 * Math.sqrt(-Math.pow((p / 3), 3))));
+    const theta = (1 / 3) * Math.acos(-q / (2 * Math.sqrt(-Math.pow(p / 3, 3))));
     x1 = truncate(2 * Math.sqrt(-p / 3) * Math.cos(theta) - b / (3 * a), 2);
-    x2 = truncate(2 * Math.sqrt(-p / 3) * Math.cos(theta + 2 * Math.PI / 3) - b / (3 * a), 2);
-    x3 = truncate(2 * Math.sqrt(-p / 3) * Math.cos(theta + 4 * Math.PI / 3) - b / (3 * a), 2);
+    x2 = truncate(2 * Math.sqrt(-p / 3) * Math.cos(theta + (2 * Math.PI) / 3) - b / (3 * a), 2);
+    x3 = truncate(2 * Math.sqrt(-p / 3) * Math.cos(theta + (4 * Math.PI) / 3) - b / (3 * a), 2);
 
   } else { // Case B: Delta > 0, 1 real root and 2 complex roots
 
@@ -155,85 +165,87 @@ form?.addEventListener("submit", (event) => {
 
   }
 
-(document.getElementById("p-result") as HTMLLabelElement).textContent = `${(truncate(p, 5).toFixed(5))}`; // toFixed will add zeros to specified amount if missing (ex. 6.7 with 5 becomes 6.70000)
-(document.getElementById("q-result") as HTMLLabelElement).textContent = `${(truncate(q, 5).toFixed(5))}`;
-(document.getElementById("discriminant-result") as HTMLLabelElement).textContent = `${(truncate(delta, 5)).toFixed(5)}`;
-(document.getElementById("x1-result") as HTMLLabelElement).textContent = `${(x1).toFixed(2)}`;
-(document.getElementById("x2-result") as HTMLLabelElement).textContent = Number.isNaN(x2) ? "Complex Number" : `${(x2).toFixed(2)}`;
-(document.getElementById("x3-result") as HTMLLabelElement).textContent = Number.isNaN(x3) ? "Complex Number" : `${(x3).toFixed(2)}`;
+  (document.getElementById("p-result") as HTMLLabelElement).textContent = `${truncate(p, 5).toFixed(5)}`; // toFixed will add zeros to specified amount if missing (ex. 6.7 with 5 becomes 6.70000)
+  (document.getElementById("q-result") as HTMLLabelElement).textContent = `${truncate(q, 5).toFixed(5)}`;
+  (document.getElementById("discriminant-result") as HTMLLabelElement).textContent = `${truncate(delta, 5).toFixed(5)}`;
+  (document.getElementById("x1-result") as HTMLLabelElement).textContent = `${x1.toFixed(2)}`;
+  (document.getElementById("x2-result") as HTMLLabelElement).textContent = Number.isNaN(x2) ? "Complex Number" : `${x2.toFixed(2)}`;
+  (document.getElementById("x3-result") as HTMLLabelElement).textContent = Number.isNaN(x3) ? "Complex Number" : `${x3.toFixed(2)}`;
+  (document.getElementById("y-intercept") as HTMLLabelElement).textContent = `${d.toFixed(2)}`; // y-intercept
 
-function term(coefficient: number, power: number) { // Returns terms so you can put them in an equation
+  function term(coefficient: number, power: number) { // Returns terms so you can put them in an equation
 
-  let result = ""; 
+    let result = "";
 
-  if (coefficient > 0) { // Positive term
-    
-    if (power == 0) { // For x^0, or last term
-      result += "+ " + ((coefficient == 1 && power != 0) ? "" : coefficient) + " ";
-    } else {
-      result += "+ " + ((coefficient == 1 && power != 0) ? "" : coefficient) + "x<sup>" + ((power > 1) ? power + " " : " ") + "</sup>"; // Doesn't put power if it's x^1
+    if (coefficient > 0) { // Positive term
+
+      if (power == 0) { // For x^0, or last term
+        result += "+ " + (coefficient == 1 && power != 0 ? "" : coefficient) + " ";
+      } else {
+        result += "+ " + (coefficient == 1 && power != 0 ? "" : coefficient) + "x<sup>" + (power > 1 ? power + " " : " ") + "</sup>"; // Doesn't put power if it's x^1
+      }
+
+    } else if (coefficient < 0) { // Negative term
+
+      if (power == 0) {
+        result += "- " + (Math.abs(coefficient) == 1 && power != 0 ? "" : Math.abs(coefficient)) + " ";
+      } else {
+        result +=  "- " + (Math.abs(coefficient) == 1 && power != 0 ? "" : Math.abs(coefficient)) + "x<sup>" + (power > 1 ? power + " " : " ") + "</sup>";
+      }
+
     }
 
-  } else if (coefficient < 0) { // Negative term
+    return result; // Returns nothing if the coefficient was 0
 
-    if (power == 0) {
-      result += "- " + ((Math.abs(coefficient) == 1 && power != 0) ? "" : Math.abs(coefficient)) + " ";
-    } else {
-      result += "- " + ((Math.abs(coefficient) == 1 && power != 0) ? "" : Math.abs(coefficient)) + "x<sup>" + ((power > 1) ? power + " " : " ") + "</sup>";
-    }
+  }
 
-  } 
-  
-  return result; // Returns nothing if the coefficient was 0
+  const eqn = (a > 0 ? term(a, 3).substring(2) : "-" + term(a, 3).substring(2)) + term(b, 2) + term(c, 1) + term(d, 0) + "= 0";
 
-}
+  (document.getElementById("equation") as HTMLLabelElement).innerHTML = eqn;
 
-const eqn = ((a > 0) ? (term(a, 3)).substring(2) : "-" + (term(a, 3)).substring(2)) + term(b, 2) + term(c, 1) + term (d, 0) + "= 0";
+  const canvas = document.getElementById("graph");
+  const ctx = canvas.getContext("2d");
+  const xMin = -12; // Determine how many units it extends for relative to axis origin, ideally square
+  const xMax = 12;
+  const yMin = -12;
+  const yMax = 12;
 
-(document.getElementById("equation") as HTMLLabelElement).innerHTML = eqn;
+  function coordToPixelX(x: number) { // Converts x/y-vals from the function into coords used by Canvas
+    // Because Canvas's grid starts with index (0, 0) at top left corner, we must find the corresponding Canvas coords
+    const width = canvas.width; // From width and height defined in HTML part
 
-const canvas = document.getElementById("graph");
-const ctx = canvas.getContext("2d");
-const xMin = -12; // Determine how many units it extends for relative to axis origin, ideally square
-const xMax = 12;
-const yMin = -12;
-const yMax = 12;
+    const pixelPerGridX = width / (xMax - xMin); // Determine how many Canvas pixels per
+    // Origin on normal graph corresponds to 24/2
+    const px = (x - xMin) * pixelPerGridX; // First get Canvas x-coord (the one with origin at top left corner...) that corresponds to og x val, then multiply it by the no. pixels per grid to get the correct no. pixels
 
-function coordToPixelX(x: number) { // Converts x/y-vals from the function into coords used by Canvas
-// Because Canvas's grid starts with index (0, 0) at top left corner, we must find the corresponding Canvas coords
-  const width = canvas.width; // From width and height defined in HTML part
+    return px; // Returns as an object
 
-  const pixelPerGridX = width / (xMax - xMin); // Determine how many Canvas pixels per
-// Origin on normal graph corresponds to 24/2 
-  const px = (x - xMin) * pixelPerGridX; // First get Canvas x-coord (the one with origin at top left corner...) that corresponds to og x val, then multiply it by the no. pixels per grid to get the correct no. pixels
+  }
 
-  return px; // Returns as an object
+  function coordToPixelY(y: number) {
 
-}
+    const height = canvas.height;
 
-function coordToPixelY(y: number) {
+    const pixelPerGridY = height / (yMax - yMin);
 
-  const height = canvas.height;
+    const py = (yMax - y) * pixelPerGridY;
 
-  const pixelPerGridY = height / (yMax - yMin);
+    return py;
 
-  const py = (yMax - y) * pixelPerGridY; 
+  }
 
-  return py; 
+  function calculateCubic(x: number) {
+    // Simply to get x-y input-output
+    return a * Math.pow(x, 3) + b * Math.pow(x, 2) + c * x + d;
+  }
 
-}
+  function drawGrid() { // Draws the grid
 
-function calculateCubic(x: number) { // Simply to get x-y input-output
-  return a * Math.pow(x, 3) + b * Math.pow(x, 2) + c * x + d;
-}
+    ctx.lineWidth = 1;
 
-function drawGrid() { // Draws the grid
-
-  ctx.lineWidth = 1;
-
-   for (let i = xMin; i <= xMax; i++) { // Draw all VERTICAL lines, including edges
+    for (let i = xMin; i <= xMax; i++) { // Draw all VERTICAL lines, including edges
       ctx.beginPath();
-      ctx.strokeStyle = '#67a095';
+      ctx.strokeStyle = "rgba(103, 160, 149)";
       ctx.moveTo(coordToPixelX(i), coordToPixelY(yMax));
       ctx.lineTo(coordToPixelX(i), coordToPixelY(yMin));
       ctx.stroke();
@@ -241,99 +253,108 @@ function drawGrid() { // Draws the grid
 
     for (let i = yMin; i <= yMax; i++) { // Draw all HORIZONTAL lines, including edges
       ctx.beginPath();
-      ctx.strokeStyle = '#67a095';
+      ctx.strokeStyle = "rgba(103, 160, 149)";
       ctx.moveTo(coordToPixelX(xMin), coordToPixelY(i));
       ctx.lineTo(coordToPixelX(xMax), coordToPixelY(i));
       ctx.stroke();
     }
 
-}
-
-function drawAxis() {
-  
-  ctx.beginPath();
-  ctx.strokeStyle = 'rgba(9, 69, 74, 0.87)';
-
-  const pxMin = coordToPixelX(xMin); // The leftmost edge of the grid
-  const pxMax = coordToPixelX(xMax); // and rightmost
-  ctx.moveTo(pxMin, coordToPixelY(0)); // Start line at leftmost
-  ctx.lineTo(pxMax, coordToPixelY(0)); // End line at rightmost
-  ctx.stroke(); // This draws the line
-
-  ctx.beginPath();
-  const pyMin = coordToPixelY(yMin); // The bottommost edge of the grid
-  const pyMax = coordToPixelY(yMax); // and topmost
-  ctx.moveTo(coordToPixelX(0), pyMin); // Start line at bottommost
-  ctx.lineTo(coordToPixelX(0), pyMax); // End line at topmost
-  ctx.stroke(); // Draws the line
-
-}
-
-function drawCurve() { // For actually drawing the curve
-
-  let isFirstPoint = true;
-  ctx.beginPath();
-  ctx.strokeStyle = '#910B21';
-  ctx.lineWidth = 3;
-
-  for (let i = xMin; i <= xMax; i += 0.001) {
-    const x = i;
-    const y = calculateCubic(x);
-    
-    if (y < yMin || y > yMax) { // Make sure y is in range (x always in range)
-      isFirstPoint = true;
-      continue;
-    }
-
-    if (isFirstPoint) { // Only reaches this for first point, then locks it to false
-      ctx.moveTo(coordToPixelX(x), coordToPixelY(y));
-      isFirstPoint = false;
-      continue;
-    }
-
-    ctx.lineTo(coordToPixelX(x), coordToPixelY(y));
-    
   }
 
-  ctx.stroke(); // Draws once all lineTo are marked
+  function drawAxis() {
 
-}
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(9, 69, 74, 0.87)";
 
-function drawDot(x: number, y: number) {
+    const pxMin = coordToPixelX(xMin); // The leftmost edge of the grid
+    const pxMax = coordToPixelX(xMax); // and rightmost
+    ctx.moveTo(pxMin, coordToPixelY(0)); // Start line at leftmost
+    ctx.lineTo(pxMax, coordToPixelY(0)); // End line at rightmost
+    ctx.stroke(); // This draws the line
 
-  ctx.beginPath();
-  ctx.strokeStyle = '#081681';
-  ctx.arc(x, y, 3, 0, 2 * Math.PI)
-  ctx.fillStyle = '#081681'; // Circle fill color
-  ctx.fill(); // Fills the circle so it's not just a circle
-  ctx.stroke();
+    ctx.beginPath();
+    const pyMin = coordToPixelY(yMin); // The bottommost edge of the grid
+    const pyMax = coordToPixelY(yMax); // and topmost
+    ctx.moveTo(coordToPixelX(0), pyMin); // Start line at bottommost
+    ctx.lineTo(coordToPixelX(0), pyMax); // End line at topmost
+    ctx.stroke(); // Draws the line
 
-}
+  }
 
-function drawRoots() {
+  function drawCurve() { // For actually drawing the curve
 
-  drawDot(coordToPixelX(x1), coordToPixelY(0)); // x1 will always be a root
+    let isFirstPoint = true;
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(93, 20, 21)";
+    ctx.lineWidth = 3;
 
-  if (delta == 0) { // Case C
+    for (let i = xMin; i <= xMax; i += 0.001) {
+      const x = i;
+      const y = calculateCubic(x);
 
-    if (p != 0) { // Case C2: Double root (x2 and x3 are the same so just draw one)
+      if (y < yMin || y > yMax) {
+        // Make sure y is in range (x always in range)
+        isFirstPoint = true;
+        continue;
+      }
 
-      drawDot(coordToPixelX(x2), coordToPixelY(0));
-      
-    } // Else, p = q = 0 and it's a triple root (no need to draw)
+      if (isFirstPoint) {
+        // Only reaches this for first point, then locks it to false
+        ctx.moveTo(coordToPixelX(x), coordToPixelY(y));
+        isFirstPoint = false;
+        continue;
+      }
 
-  } else if (delta < 0) { // Case A, three real roots
+      ctx.lineTo(coordToPixelX(x), coordToPixelY(y));
+    }
 
-    drawDot(coordToPixelX(x2), coordToPixelY(0));
-    drawDot(coordToPixelX(x3), coordToPixelY(0));
+    ctx.stroke(); // Draws once all lineTo are marked
 
-  } // Case B, 1 real and 2 complex roots, no need to draw
-}
+  }
 
-ctx.clearRect(0, 0, canvas.width, canvas.height);
-drawGrid();
-drawAxis();
-drawCurve();
-drawRoots();
+  function drawDot(x: number, y: number, color: string) {
 
-})
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.arc(x, y, 3, 0, 2 * Math.PI); // (x-coord, y-coord, radius, start angle, end angle)
+    ctx.fillStyle = color; // Circle fill color
+    ctx.fill(); // Fills the circle so it's not just a circle
+    ctx.stroke();
+
+  }
+
+  function drawRoots() {
+
+    drawDot(coordToPixelX(x1), coordToPixelY(0), "rgba(65, 107, 186)"); // x1 will always be a root
+
+    if (delta == 0) { // Case C
+
+      if (p != 0) { // Case C2: Double root (x2 and x3 are the same so just draw one)
+
+        drawDot(coordToPixelX(x2), coordToPixelY(0), "rgba(65, 107, 186)");
+      } // Else, p = q = 0 and it's a triple root (no need to draw)
+
+    } else if (delta < 0) { // Case A, three real roots
+
+      drawDot(coordToPixelX(x2), coordToPixelY(0), "rgba(65, 107, 186)");
+      drawDot(coordToPixelX(x3), coordToPixelY(0), "rgba(65, 107, 186)");
+    } // Case B, 1 real and 2 complex roots, no need to draw
+
+  }
+
+  function drawYIntercept() {
+
+    if (d >= yMin && d <= yMax) {
+      drawDot(coordToPixelX(0), coordToPixelY(d), "rgba(191, 155, 21)");
+    }
+
+  }
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // Clears before running all drawing functions
+  drawGrid();
+  drawAxis();
+  drawCurve();
+  drawRoots();
+  drawYIntercept();
+
+});

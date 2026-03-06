@@ -1,61 +1,60 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap'); /* I only want this for the title to look fancy */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap'); /* Default font for anything else*/
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap"); /* I only want this font for the title to look fancy */
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap"); /* Default font for anything else*/
 
 :root {
-  font-family: 'ibm plex mono', helvetica, arial, sans-serif;
+  font-family: "ibm plex mono", helvetica, arial, sans-serif;
   line-height: 1.67;
   font-weight: 400;
-
   color-scheme: light;
   color: rgba(9, 69, 74, 0.87);
-  background-color: #3e625f;
+  background-image: linear-gradient(200deg, rgba(62, 98, 95), rgba(80, 152, 146));
 }
 
 .h1 { /* Title font */
-  font-family: 'dm serif display', helvetica, arial, sans-serif;
+  font-family: "dm serif display", helvetica, arial, sans-serif;  
+  margin-bottom: 67px;
   line-height: 10px;
   font-weight: 400;
   font-size: 67px;
-  margin-bottom: 67px;
   color: rgba(9, 69, 74, 0.87);
 }
 
 .input-ui {
   width: fit-content;
   height: fit-content;
-  text-align: center;
-  border-radius: 20px;
-  background-color: #d2d5d5;
+  text-align: center;  
   margin: 0 auto;
   margin-bottom: 50px;
   margin-top: 50px;
   padding: 50px;
+  border-radius: 20px;
   box-shadow: 5px 5px 20px rgba(1, 14, 19, 0.4);
+  background-color: rgba(210, 213, 213);
 }
 
 .output-ui {
   width: fit-content;
   height: fit-content;
-  text-align: center;
-  border-radius: 20px;
-  background-color: #d2d5d5;
-  box-shadow: 5px 5px 20px rgba(1, 14, 19, 0.4);
-  margin: 0 auto;
   display: flex;
+  text-align: center;
+  margin: 0 auto;
   flex-direction: column;
   align-items: center;
+  border-radius: 20px;
+  box-shadow: 5px 5px 20px rgba(1, 14, 19, 0.4);
+  background-color: rgba(210, 213, 213);
 }
 
 .form-input {
   all: unset;
-  background-color: #ffffff;
   width: 150px;
   height: 40px;
-  border-radius: 20px;
   margin: 10px;
-  color: rgba(9, 69, 74, 0.87);
+  border-radius: 20px;
   border: 1px solid rgba(9, 69, 74, 0.87);
   box-shadow: 2px 2px 8px rgba(1, 14, 19, 0.4);
+  color: rgba(9, 69, 74, 0.87);
+  background-color: rgba(255, 255, 255);
 }
 
 .form-input:hover {
@@ -63,18 +62,57 @@
 }
 
 .form-input:focus {
- background-color: #caebe5;
+  background-color: rgba(202, 235, 229);
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.button {
+  font-family: "ibm plex mono", helvetica, arial, sans-serif;
+  height: 80px;
+  line-height: 1.67;
+  font-weight: 400;
+  padding-right: 30px;
+  padding-left: 30px;
+  border-radius: 20px;
+  border: 0px;
+  color-scheme: light;
+  box-shadow: 2px 2px 8px rgba(1, 14, 19, 0.4);
+  color: rgba(255, 255, 255);
+  background-color: rgba(62, 98, 95);
+}
+
+.button:hover {
+  background-color: rgba(202, 235, 229);
+}
+
+.button:active {
+  color: rgba(255, 255, 255);
+  background-color: rgba(9, 69, 74, 0.87);
+}
+.full-table {
+  width: 400px;
+  margin-bottom: 50px;
+  border-radius: 20px;
+  box-shadow: 5px 5px 20px rgba(1, 14, 19, 0.4);
+  background-color: rgba(255, 255, 255);
 }
 
 .table-row {
-  background-color: rgba(255, 255, 255, 0);
   width: 100px;
   height: 40px;
+  background-color: rgba(255, 255, 255, 0);
 }
 
 .colored-row {
-  background-color: #3e625f;
-  color: #ffffff;
+  color: rgba(255, 255, 255);
+  background-color: rgba(62, 98, 95);
 }
 
 .half-col {
@@ -85,45 +123,13 @@
   width: 100px;
 }
 
-.full-table {
-  margin-bottom: 50px;
-  border-radius: 20px;
-  background-color: rgb(255, 255, 255);
-  width: 400px;
-  box-shadow: 5px 5px 20px rgba(1, 14, 19, 0.4);
+.border-bottom {
+  border-bottom: 1px dashed rgba(62, 98, 95); 
 }
 
-.form {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.button {
-  background-color: #3e625f;
-  color: #ffffff;
-  height: 80px;
-  font-family: 'ibm plex mono', helvetica, arial, sans-serif;
-  line-height: 1.67;
-  font-weight: 400;
-  color-scheme: light;
-  border-radius: 20px;
-  color: rgba(255, 255, 255, 0.87);
-  padding-right: 30px;
-  padding-left: 30px;
-  border: 0px;
-  box-shadow: 2px 2px 8px rgba(1, 14, 19, 0.4);
-}
-
-.button:hover {
-  background-color: #caebe5;
-}
-
-.button:active {
-  color: #ffffff;
-  background-color: rgba(9, 69, 74, 0.87);
+.equation {
+  padding-top: 20px;
+  font-size: 30px;
 }
 
 .graph {
@@ -138,9 +144,4 @@
 
 .font {
   font-size: 20px;
-}
-
-.equation {
-  padding-top: 20px;
-  font-size: 30px;
 }
