@@ -157,7 +157,7 @@ form?.addEventListener("submit", (event) => {
 
 (document.getElementById("p-result") as HTMLLabelElement).textContent = `${truncate(p, 5)}`;
 (document.getElementById("q-result") as HTMLLabelElement).textContent = `${truncate(q, 5)}`;
-(document.getElementById("discriminant-result") as HTMLLabelElement).textContent = `${truncate(p, 5)}`;
+(document.getElementById("discriminant-result") as HTMLLabelElement).textContent = `${truncate(delta, 5)}`;
 (document.getElementById("x1-result") as HTMLLabelElement).textContent = `${x1}`;
 (document.getElementById("x2-result") as HTMLLabelElement).textContent = Number.isNaN(x2) ? "Complex Number" : `${x2}`;
 (document.getElementById("x3-result") as HTMLLabelElement).textContent = Number.isNaN(x3) ? "Complex Number" : `${x3}`;

@@ -30,28 +30,20 @@
   margin-bottom: 50px;
   margin-top: 50px;
   padding: 50px;
-  /* box-shadow: horizontal-offset vertical-offset blur-radius spread-radius color; */
-  /* box-shadow: 10 10 10 10 #000000; */
   box-shadow: 5px 5px 20px rgba(1, 14, 19, 0.4);
-  /* box-shadow: 1 40px 60px rgba(0, 0, 0, 0.1); */
-
 }
 
 .output-ui {
   width: fit-content;
   height: fit-content;
-  /* justify-content: center; */
   text-align: center;
-  width: 80%;
-  height: 1200px;
   border-radius: 20px;
   background-color: #d2d5d5;
-  
   box-shadow: 5px 5px 20px rgba(1, 14, 19, 0.4);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-items: center;
+  align-items: center;
 }
 
 .form-input {
@@ -94,7 +86,7 @@
 }
 
 .full-table {
-  margin: 50px;
+  margin-bottom: 50px;
   border-radius: 20px;
   background-color: rgb(255, 255, 255);
   width: 400px;
@@ -135,7 +127,9 @@
 }
 
 .graph {
-  margin: 50px;
+  margin-bottom: 50px;
+  margin-right: 50px;
+  margin-left: 50px;
 }
 
 .white-background {
