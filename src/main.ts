@@ -10,19 +10,19 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           <div>
             <div class="input-item">
               a-value: <br>
-              <input type="number" class="form-input" name="a-val" required>
+              <input type="number" class="form-input" name="a-val" step="any" required>
             </div>
             <div class="input-item">
               b-value: <br>
-              <input type="number" class="form-input" name="b-val" required>
+              <input type="number" class="form-input" name="b-val" step="any" required>
             </div>
             <div class="input-item">
               c-value: <br>
-              <input type="number" class="form-input" name="c-val" required>
+              <input type="number" class="form-input" name="c-val" step="any" required>
             </div>
             <div class="input-item">
               d-value: <br>
-              <input type="number" class="form-input" name="d-val" required>
+              <input type="number" class="form-input" name="d-val" step="any" required>
             </div>
           </div>
           <div>
@@ -155,12 +155,12 @@ form?.addEventListener("submit", (event) => {
 
   }
 
-(document.getElementById("p-result") as HTMLLabelElement).textContent = `${truncate(p, 5)}`;
-(document.getElementById("q-result") as HTMLLabelElement).textContent = `${truncate(q, 5)}`;
-(document.getElementById("discriminant-result") as HTMLLabelElement).textContent = `${truncate(delta, 5)}`;
-(document.getElementById("x1-result") as HTMLLabelElement).textContent = `${x1}`;
-(document.getElementById("x2-result") as HTMLLabelElement).textContent = Number.isNaN(x2) ? "Complex Number" : `${x2}`;
-(document.getElementById("x3-result") as HTMLLabelElement).textContent = Number.isNaN(x3) ? "Complex Number" : `${x3}`;
+(document.getElementById("p-result") as HTMLLabelElement).textContent = `${(truncate(p, 5).toFixed(5))}`; // toFixed will add zeros to specified amount if missing (ex. 6.7 with 5 becomes 6.70000)
+(document.getElementById("q-result") as HTMLLabelElement).textContent = `${(truncate(q, 5).toFixed(5))}`;
+(document.getElementById("discriminant-result") as HTMLLabelElement).textContent = `${(truncate(delta, 5)).toFixed(5)}`;
+(document.getElementById("x1-result") as HTMLLabelElement).textContent = `${(x1).toFixed(2)}`;
+(document.getElementById("x2-result") as HTMLLabelElement).textContent = Number.isNaN(x2) ? "Complex Number" : `${(x2).toFixed(2)}`;
+(document.getElementById("x3-result") as HTMLLabelElement).textContent = Number.isNaN(x3) ? "Complex Number" : `${(x3).toFixed(2)}`;
 
 function term(coefficient: number, power: number) { // Returns terms so you can put them in an equation
 
@@ -169,17 +169,17 @@ function term(coefficient: number, power: number) { // Returns terms so you can 
   if (coefficient > 0) { // Positive term
     
     if (power == 0) { // For x^0, or last term
-      result += "+ " + coefficient + " ";
+      result += "+ " + ((coefficient == 1 && power != 0) ? "" : coefficient) + " ";
     } else {
-      result += "+ " + coefficient + "x<sup>" + ((power > 1) ? power + " " : " ") + "</sup>"; // Doesn't put power if it's x^1
+      result += "+ " + ((coefficient == 1 && power != 0) ? "" : coefficient) + "x<sup>" + ((power > 1) ? power + " " : " ") + "</sup>"; // Doesn't put power if it's x^1
     }
 
   } else if (coefficient < 0) { // Negative term
 
     if (power == 0) {
-      result += "- " + Math.abs(coefficient) + " ";
+      result += "- " + ((Math.abs(coefficient) == 1 && power != 0) ? "" : Math.abs(coefficient)) + " ";
     } else {
-      result += "- " + Math.abs(coefficient) + "x<sup>" + ((power > 1) ? power + " " : " ") + "</sup>";
+      result += "- " + ((Math.abs(coefficient) == 1 && power != 0) ? "" : Math.abs(coefficient)) + "x<sup>" + ((power > 1) ? power + " " : " ") + "</sup>";
     }
 
   } 
