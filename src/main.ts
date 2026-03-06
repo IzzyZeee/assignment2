@@ -5,86 +5,88 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <html>
     <div class="input-ui">
       <h1 class="h1"> Cubic Solver </h1>
-        <div>
-          <form class="form font" id="cubic"> 
-            <div>
-              <div class="input-item">
-                a-value: <br>
-                <input type="number" class="form-input" name="a-val" required>
-              </div>
-              <div class="input-item">
-                b-value: <br>
-                <input type="number" class="form-input" name="b-val" required>
-              </div>
-              <div class="input-item">
-                c-value: <br>
-                <input type="number" class="form-input" name="c-val" required>
-              </div>
-              <div class="input-item">
-                d-value: <br>
-                <input type="number" class="form-input" name="d-val" required>
-              </div>
+      <div>
+        <form class="form font" id="cubic"> 
+          <div>
+            <div class="input-item">
+              a-value: <br>
+              <input type="number" class="form-input" name="a-val" required>
             </div>
-            <div>
-              <input type="submit" class="button font" value="Solve that cubic!">
-            </div>     
-          <form>
-        </div>
+            <div class="input-item">
+              b-value: <br>
+              <input type="number" class="form-input" name="b-val" required>
+            </div>
+            <div class="input-item">
+              c-value: <br>
+              <input type="number" class="form-input" name="c-val" required>
+            </div>
+            <div class="input-item">
+              d-value: <br>
+              <input type="number" class="form-input" name="d-val" required>
+            </div>
+          </div>
+          <div>
+            <input type="submit" class="button font" value="Solve that cubic!">
+          </div>
+        </form>
+      </div>
     </div>
     <div class="output-ui">
-    <p id="equation"></p>
+    <p id="equation" class="equation"></p>
       <body>
-        <table class="font">
-          <tr class="table-row">
-            <td class="half-col">p</td>
-            <td class="half-col">
-              <label id="p-result">
-            </td>
-          </tr>
-          <tr class="table-row">
-            <td>q</td>
-            <td>
-              <label id="q-result">
-            </td>
-          </tr>
-          <tr class="table-row">
-            <td>Discriminant</td>
-            <td>
-              <label id="discriminant-result">
-            </td>
-          </tr>
-        </table>
-        <table class="font">
-          <tr class="table-row colored-row" >
-            <td class="half-col">Value</td>
-            <td class="quarter-col">x</td>
-            <td class="quarter-col">y</td>
-          </tr>
-          <tr class="table-row">
-            <td>Root 1</td>
-            <td>
-              <label id="x1-result">
-            </td>
-            <td>0</td>
-          </tr>          
-          <tr class="table-row">
-            <td>Root 2</td>
-            <td>
-              <label id="x2-result">
-            </td>
-            <td>0</td>
-          </tr>
-          <tr class="table-row">
-            <td>Root 3</td>
-            <td>
-              <label id="x3-result">
-            </td>
-            <td>0</td>
-          </tr>
-        </table>
-
-        <canvas id="graph" width="600" height="600"></canvas>
-
+        <div class="full-table">
+          <table class="font">
+            <tr class="table-row">
+              <td class="half-col">p</td>
+              <td class="half-col">
+                <label id="p-result"></label>
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td>q</td>
+              <td>
+                <label id="q-result"></label>
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td>Discriminant</td>
+              <td>
+                <label id="discriminant-result"></label>
+              </td>
+            </tr>
+          </table>
+          <table class="font">
+            <tr class="table-row colored-row" >
+              <td class="half-col">Value</td>
+              <td class="quarter-col">x</td>
+              <td class="quarter-col">y</td>
+            </tr>
+            <tr class="table-row">
+              <td>Root 1</td>
+              <td>
+                <label id="x1-result"></label>
+              </td>
+              <td>0</td>
+            </tr>          
+            <tr class="table-row">
+              <td>Root 2</td>
+              <td>
+                <label id="x2-result"></label>
+              </td>
+              <td>0</td>
+            </tr>
+            <tr class="table-row">
+              <td>Root 3</td>
+              <td>
+                <label id="x3-result"></label>
+              </td>
+              <td>0</td>
+            </tr>
+          </table>
+        </div>
+        <div class="graph">
+          <canvas id="graph" width="600" height="600"></canvas>
+        </div>
       </body>
     </div>
   </html>
@@ -108,9 +110,9 @@ form?.addEventListener("submit", (event) => {
   const q = (27 * a * a * d - 9 * a * b * c + 2 * b * b * b) / (27 * a * a * a);
   let delta = Math.pow((q / 2), 2) + Math.pow((p / 3), 3);
 
-  let x1 = null;
-  let x2 = null;
-  let x3 = null;
+  let x1 = 0;
+  let x2 = 0;
+  let x3 = 0;
   
   function truncate(num: number, places: number) { // To truncate to 5 decimal places because the example does so
 
@@ -126,14 +128,14 @@ form?.addEventListener("submit", (event) => {
 
   if (Math.abs(delta) < 1e-15) { // Case C: Delta equals 0, but sometimes the computer can't actually get the zero so it becomes very close to zero, which we detect under the threshold (between 0 and 1e-15)
   
-    delta = 0;
+    delta = 0; // Turns delta to zero
     
-    if (p == 0 && q == 0) { // Case C1: Triple root when p = q = 0
-      x1 = cardano(a, b, p, q);      
+    if (Math.abs(p) < 1e-15 && Math.abs(q) < 1e-15) { // Case C1: Triple root when p = q = 0
+      x1 = cardano(a, b, p, q);
       x2 = x1;
       x3 = x1;
     } else { // Case C2: Double root
-      x1 = cardano(a, b, p, q), 2; // Double
+      x1 = cardano(a, b, p, q); // Double
       x2 = truncate(Math.cbrt(q / 2) - b / (3 * a), 2); // Single
       x3 = x2;
     }
@@ -147,18 +149,18 @@ form?.addEventListener("submit", (event) => {
 
   } else { // Case B: Delta > 0, 1 real root and 2 complex roots
 
-    x1 = cardano(a, b, p, q), 2;
-    x2 = "Complex Number";
-    x3 = "Complex Number";
+    x1 = cardano(a, b, p, q);
+    x2 = NaN;
+    x3 = NaN;
 
-  } 
+  }
 
-(document.getElementById("p-result") as HTMLInputElement).textContent = `${truncate(p, 5)}`;
-(document.getElementById("q-result") as HTMLInputElement).textContent = `${truncate(q, 5)}`;
-(document.getElementById("discriminant-result") as HTMLInputElement).textContent = `${truncate(p, 5)}`;
-(document.getElementById("x1-result") as HTMLInputElement).textContent = `${x1}`;
-(document.getElementById("x2-result") as HTMLInputElement).textContent = `${x2}`;
-(document.getElementById("x3-result") as HTMLInputElement).textContent = `${x3}`;
+(document.getElementById("p-result") as HTMLLabelElement).textContent = `${truncate(p, 5)}`;
+(document.getElementById("q-result") as HTMLLabelElement).textContent = `${truncate(q, 5)}`;
+(document.getElementById("discriminant-result") as HTMLLabelElement).textContent = `${truncate(p, 5)}`;
+(document.getElementById("x1-result") as HTMLLabelElement).textContent = `${x1}`;
+(document.getElementById("x2-result") as HTMLLabelElement).textContent = Number.isNaN(x2) ? "Complex Number" : `${x2}`;
+(document.getElementById("x3-result") as HTMLLabelElement).textContent = Number.isNaN(x3) ? "Complex Number" : `${x3}`;
 
 function term(coefficient: number, power: number) { // Returns terms so you can put them in an equation
 
@@ -188,7 +190,7 @@ function term(coefficient: number, power: number) { // Returns terms so you can 
 
 const eqn = ((a > 0) ? (term(a, 3)).substring(2) : "-" + (term(a, 3)).substring(2)) + term(b, 2) + term(c, 1) + term (d, 0) + "= 0";
 
-(document.getElementById("equation") as HTMLInputElement).innerHTML = eqn;
+(document.getElementById("equation") as HTMLLabelElement).innerHTML = eqn;
 
 const canvas = document.getElementById("graph");
 const ctx = canvas.getContext("2d");
@@ -227,7 +229,9 @@ function calculateCubic(x: number) { // Simply to get x-y input-output
 
 function drawGrid() { // Draws the grid
 
-   for (let i = xMin; i <= xMax - xMin; i++) { // Draw all VERTICAL lines, including edges
+  ctx.lineWidth = 1;
+
+   for (let i = xMin; i <= xMax; i++) { // Draw all VERTICAL lines, including edges
       ctx.beginPath();
       ctx.strokeStyle = '#67a095';
       ctx.moveTo(coordToPixelX(i), coordToPixelY(yMax));
@@ -235,7 +239,7 @@ function drawGrid() { // Draws the grid
       ctx.stroke();
     }
 
-    for (let i = yMin; i <= yMax - yMin; i++) { // Draw all HORIZONTAL lines, including edges
+    for (let i = yMin; i <= yMax; i++) { // Draw all HORIZONTAL lines, including edges
       ctx.beginPath();
       ctx.strokeStyle = '#67a095';
       ctx.moveTo(coordToPixelX(xMin), coordToPixelY(i));
@@ -256,6 +260,7 @@ function drawAxis() {
   ctx.lineTo(pxMax, coordToPixelY(0)); // End line at rightmost
   ctx.stroke(); // This draws the line
 
+  ctx.beginPath();
   const pyMin = coordToPixelY(yMin); // The bottommost edge of the grid
   const pyMax = coordToPixelY(yMax); // and topmost
   ctx.moveTo(coordToPixelX(0), pyMin); // Start line at bottommost
@@ -276,6 +281,7 @@ function drawCurve() { // For actually drawing the curve
     const y = calculateCubic(x);
     
     if (y < yMin || y > yMax) { // Make sure y is in range (x always in range)
+      isFirstPoint = true;
       continue;
     }
 
@@ -293,34 +299,41 @@ function drawCurve() { // For actually drawing the curve
 
 }
 
-function drawRoots() {
+function drawDot(x: number, y: number) {
 
   ctx.beginPath();
   ctx.strokeStyle = '#081681';
-  ctx.arc(coordToPixelX(Number(x1)), coordToPixelY(calculateCubic(x1)))
+  ctx.arc(x, y, 3, 0, 2 * Math.PI)
+  ctx.fillStyle = '#081681'; // Circle fill color
+  ctx.fill(); // Fills the circle so it's not just a circle
+  ctx.stroke();
 
+}
+
+function drawRoots() {
+
+  drawDot(coordToPixelX(x1), coordToPixelY(0)); // x1 will always be a root
+
+  if (delta == 0) { // Case C
+
+    if (p != 0) { // Case C2: Double root (x2 and x3 are the same so just draw one)
+
+      drawDot(coordToPixelX(x2), coordToPixelY(0));
+      
+    } // Else, p = q = 0 and it's a triple root (no need to draw)
+
+  } else if (delta < 0) { // Case A, three real roots
+
+    drawDot(coordToPixelX(x2), coordToPixelY(0));
+    drawDot(coordToPixelX(x3), coordToPixelY(0));
+
+  } // Case B, 1 real and 2 complex roots, no need to draw
 }
 
 ctx.clearRect(0, 0, canvas.width, canvas.height);
 drawGrid();
 drawAxis();
 drawCurve();
-
-
-// ctx.moveTo(50, 100); // starting point
-// ctx.lineTo(300, 200); // ending point
-// ctx.stroke(); // actually draw it
-
-// ctx.beginPath();
-// ctx.moveTo(50, 100);
-// ctx.lineTo(150, 120);
-// ctx.lineTo(250, 80);
-// ctx.lineTo(350, 140);
-// ctx.stroke();
-
-
-
-
-
+drawRoots();
 
 })

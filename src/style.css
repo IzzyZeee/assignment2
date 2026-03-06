@@ -13,10 +13,10 @@
 
 .h1 { /* Title font */
   font-family: 'dm serif display', helvetica, arial, sans-serif;
-  line-height: 1.67;
+  line-height: 10px;
   font-weight: 400;
   font-size: 67px;
-  padding-top: 10px;
+  margin-bottom: 67px;
   color: rgba(9, 69, 74, 0.87);
 }
 
@@ -30,17 +30,28 @@
   margin-bottom: 50px;
   margin-top: 50px;
   padding: 50px;
+  /* box-shadow: horizontal-offset vertical-offset blur-radius spread-radius color; */
+  /* box-shadow: 10 10 10 10 #000000; */
+  box-shadow: 5px 5px 20px rgba(1, 14, 19, 0.4);
+  /* box-shadow: 1 40px 60px rgba(0, 0, 0, 0.1); */
+
 }
 
 .output-ui {
-    width: fit-content;
+  width: fit-content;
   height: fit-content;
+  /* justify-content: center; */
   text-align: center;
   width: 80%;
-  height: 1000px;
-  border-radius: 10px;
+  height: 1200px;
+  border-radius: 20px;
   background-color: #d2d5d5;
+  
+  box-shadow: 5px 5px 20px rgba(1, 14, 19, 0.4);
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
 }
 
 .form-input {
@@ -52,6 +63,7 @@
   margin: 10px;
   color: rgba(9, 69, 74, 0.87);
   border: 1px solid rgba(9, 69, 74, 0.87);
+  box-shadow: 2px 2px 8px rgba(1, 14, 19, 0.4);
 }
 
 .form-input:hover {
@@ -63,9 +75,14 @@
 }
 
 .table-row {
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0);
   width: 100px;
   height: 40px;
+}
+
+.colored-row {
+  background-color: #3e625f;
+  color: #ffffff;
 }
 
 .half-col {
@@ -76,9 +93,12 @@
   width: 100px;
 }
 
-.colored-row {
-  background-color: #3e625f;
-  color: #ffffff;
+.full-table {
+  margin: 50px;
+  border-radius: 20px;
+  background-color: rgb(255, 255, 255);
+  width: 400px;
+  box-shadow: 5px 5px 20px rgba(1, 14, 19, 0.4);
 }
 
 .form {
@@ -99,21 +119,34 @@
   color-scheme: light;
   border-radius: 20px;
   color: rgba(255, 255, 255, 0.87);
-
   padding-right: 30px;
   padding-left: 30px;
   border: 0px;
+  box-shadow: 2px 2px 8px rgba(1, 14, 19, 0.4);
 }
 
 .button:hover {
-  background-color: rgba(9, 69, 74, 0.87);
+  background-color: #caebe5;
 }
 
 .button:active {
-  color: #3e625f;
-  background-color: #ffffff;
+  color: #ffffff;
+  background-color: rgba(9, 69, 74, 0.87);
+}
+
+.graph {
+  margin: 50px;
+}
+
+.white-background {
+  background-color: rgba(255, 255, 255);
 }
 
 .font {
   font-size: 20px;
+}
+
+.equation {
+  padding-top: 20px;
+  font-size: 30px;
 }
