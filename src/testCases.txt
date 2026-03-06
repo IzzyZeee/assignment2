@@ -15,8 +15,8 @@ Case C2, One real root, one double root:
 Root that touches rightmost and leftmost x (one real, one double):
 -1, 12, 144, -1728
 
-Root that touches topmost y (one real, one double):
+Root that touches topmost y (one triple):
 1, 1, 1, 12
 
-Root that touches bottommost y (one real, one double):
+Root that touches bottommost y (one triple):
 1, 1, 1, -12
